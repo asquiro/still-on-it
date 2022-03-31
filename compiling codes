@@ -1,0 +1,97 @@
+import "package:flutter/material.dart";
+import "dart:math";
+
+void main() {
+  runApp(MaterialApp(
+    title: "Exploring UI Widget",
+    home: Scaffold(
+      appBar: AppBar(
+        title: Text("Showing Lucky Number"),
+      ),
+      body: Text("my luck number is $generateLuckyNumber()"),
+    ),
+  ));
+}
+
+int generateLuckyNumber() {
+  var random = Random();
+  int luckyNumber = random.nextInt(3);
+  return luckyNumber;
+}
+
+Widget showLisEle() {
+  var listView = ListView(children: <Widget>[
+    ListTile(
+      title: Icon(Icons.umbrella),
+      trailing: Icon(Icons.tab),
+    )
+  ]);
+  return listView;
+}
+
+List<String> generateListElement() {
+  var list = List<String>.generate(20, (counter) => "Item $counter");
+  {
+    return list;
+  }
+}
+
+Widget getListElement() {
+  var listItem = generateListElement();
+  var listView = ListView.builder(itemBuilder: (context, index) {
+    return ListTile(
+      title: Text(listItem[index]),
+    );
+  });
+  return listView;
+}
+
+class showStat extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _showingState();
+  }
+}
+
+class _showingState extends State<showStat> {
+  String cityName = "";
+  var _currencies = ["Rubbies", "dollars", "naira", "others"];
+  var _currentItem = "Rubbies";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Showing StateFul Widget",
+            style: TextStyle(
+                decoration: TextDecoration.none,
+                color: Colors.lightBlue,
+                fontSize: 20.0),
+          ),
+        ),
+        body: Container(
+            color: Colors.amber,
+            child: Column(children: <Widget>[
+              TextField(onSubmitted: (String userInput) {
+                setState(() {
+                  cityName = userInput;
+                });
+              }),
+              DropdownButton<String>(
+                items: _currencies.map((String dropDownStringItem) {
+                  return DropdownMenuItem<String>(
+                    value: dropDownStringItem,
+                    child: Text(dropDownStringItem),
+                  );
+                }).toList(),
+                onChanged: (String newItemSelected) {
+                  setState(() {
+                    this._currentItem = newItemSelected;
+                  });
+                },
+                value: _currentItem,
+              ),
+              Text("my city name is $cityName"),
+            ])));
+  }
+}
